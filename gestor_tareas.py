@@ -64,3 +64,32 @@ def buscar_tarea(nombre):
             print(f"{t[0]}. {t[1]} - {t[2]} (Fecha límite: {t[3]}) - Estado: {t[4]}")
     else:
         print("🚫 No se encontraron tareas con ese nombre.")
+
+        import pandas as pd
+
+def completar_tarea(id_tarea):
+    """Marca una tarea como completada."""
+    tareas = cargar_tareas()
+    for tarea in tareas:
+        if tarea[0] == id_tarea:
+            tarea[4] = "Completada"
+            guardar_tareas(tareas)
+            print("✅ Tarea marcada como completada.")
+            return
+    print("🚫 No se encontró la tarea.")
+
+def eliminar_tarea(id_tarea):
+    """Elimina una tarea por su ID."""
+    tareas = cargar_tareas()
+    tareas = [t for t in tareas if t[0] != id_tarea]
+    guardar_tareas(tareas)
+    print("🗑️ Tarea eliminada.")
+
+def generar_reporte():
+    """Genera un reporte de tareas usando pandas."""
+    df = pd.read_excel(ARCHIVO_EXCEL)
+    print("\n📊 Reporte de tareas:")
+    print(df)
+    print(f"\nTotal tareas: {len(df)}")
+    print(f"Tareas pendientes: {len(df[df['Estado'] == 'Pendiente'])}")
+    print(f"Tareas completadas: {len(df[df['Estado'] == 'Completada'])}")
