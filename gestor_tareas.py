@@ -1,5 +1,6 @@
 import openpyxl
 import os
+import pandas as pd
 
 ARCHIVO_EXCEL = "tareas.xlsx"
 
@@ -34,7 +35,7 @@ def guardar_tareas(tareas):
     wb.save(ARCHIVO_EXCEL)
 
 from datetime import datetime
-import openpyxl
+
 
 def agregar_tarea(nombre, descripcion, fecha_limite):
     """Agrega una nueva tarea al archivo Excel."""
@@ -65,7 +66,7 @@ def buscar_tarea(nombre):
     else:
         print("🚫 No se encontraron tareas con ese nombre.")
 
-        import pandas as pd
+        
 
 def completar_tarea(id_tarea):
     """Marca una tarea como completada."""
@@ -93,3 +94,51 @@ def generar_reporte():
     print(f"\nTotal tareas: {len(df)}")
     print(f"Tareas pendientes: {len(df[df['Estado'] == 'Pendiente'])}")
     print(f"Tareas completadas: {len(df[df['Estado'] == 'Completada'])}")
+
+def menu():
+    while True:
+        print("\n=== GESTOR DE TAREAS ===")
+        print("1. Agregar tarea")
+        print("2. Listar tareas")
+        print("3. Buscar tarea")
+        print("4. Completar tarea")
+        print("5. Eliminar tarea")
+        print("6. Generar reporte")
+        print("7. Salir")
+
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            nombre = input("Nombre: ")
+            descripcion = input("Descripción: ")
+            fecha = input("Fecha límite (YYYY-MM-DD): ")
+            agregar_tarea(nombre, descripcion, fecha)
+
+        elif opcion == "2":
+            listar_tareas()  # ✅ Llamar la función correspondiente
+
+        elif opcion == "3":
+            nombre = input("Ingrese el nombre de la tarea a buscar: ")
+            buscar_tarea(nombre)  # ✅ Llamar la función correspondiente
+
+        elif opcion == "4":
+            id_tarea = int(input("Ingrese el ID de la tarea a completar: "))
+            completar_tarea(id_tarea)  # ✅ Llamar la función correspondiente
+
+        elif opcion == "5":
+            id_tarea = int(input("Ingrese el ID de la tarea a eliminar: "))
+            eliminar_tarea(id_tarea)  # ✅ Llamar la función correspondiente
+
+        elif opcion == "6":
+            generar_reporte()  # ✅ Llamar la función correspondiente
+
+        elif opcion == "7":
+            print("👋 Saliendo del gestor de tareas...")
+            break  # ✅ Sale del bucle
+
+        else:
+            print("❌ Opción no válida.")
+
+if __name__ == "__main__":
+    verificar_archivo()
+    menu()
